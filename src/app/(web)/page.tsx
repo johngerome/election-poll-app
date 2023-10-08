@@ -1,4 +1,7 @@
+import Locations from "@/components/Locations";
 import { Button } from "@/components/ui/button";
+import { Container } from "@/components/ui/container";
+import { PageHeader } from "@/components/ui/heading";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
@@ -14,7 +17,10 @@ export default async function Index() {
     .subscribe();
   return (
     <>
-      
+      <Container>
+        <PageHeader title='Select Barangay'></PageHeader>
+        <Locations />
+      </Container>
     </>
   );
 }

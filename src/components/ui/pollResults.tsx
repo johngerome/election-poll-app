@@ -30,9 +30,10 @@ type PollItem = {
   partyList: string;
   votes: number;
   maxVotes: number;
+  isShowUpdate?: boolean;
 };
 
-export function PollItem({ placement, avatar, name, partyList, votes, maxVotes }: PollItem) {
+export function PollItem({ placement, avatar, name, partyList, votes, maxVotes, isShowUpdate }: PollItem) {
   const progress = useMemo(() => (votes / maxVotes) * 100, [votes, maxVotes]);
 
   return (
@@ -49,26 +50,29 @@ export function PollItem({ placement, avatar, name, partyList, votes, maxVotes }
           <h3 className='font-bold text-slate-800 flex-none uppercase'>
             {name} <span className='font-normal text-xs'>({partyList})</span>
           </h3>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant='default' size={"sm"} className='flex-none md:w-32 md:ml-auto md:absolute -top-1 right-0'>
-                Update Votes
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>{name}</AlertDialogTitle>
-                <AlertDialogDescription>Current Votes: 1000</AlertDialogDescription>
-                <form action='' className='py-3 block'>
-                  <Input type='text' value={1000} required />
-                </form>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction>Update</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+          {isShowUpdate && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant='default' size={"sm"} className='flex-none md:w-32 md:ml-auto md:absolute -top-1 right-0'>
+                  Update Votes
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>{name}</AlertDialogTitle>
+                  <AlertDialogDescription>Current Votes: 1000</AlertDialogDescription>
+                  <form action='' className='py-3 block'>
+                    <Input type='text' value={1000} required />
+                  </form>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction>Update</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+
           <p className='space-x-2 flex-1'>
             <span className='flex-none font-semibold text-primary'>{votes}</span>
             <span className='text-gray-400 text-sm'>Votes</span>

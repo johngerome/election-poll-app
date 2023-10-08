@@ -30,6 +30,7 @@ export default function Results() {
             placement={2}
             votes={800}
             maxVotes={3000}
+            isShowUpdate
           ></PollItem>
         </PollResults>
         <SectionTitle>Kagawad, Sangguniang Barangay</SectionTitle>

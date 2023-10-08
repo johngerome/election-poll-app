@@ -74,16 +74,19 @@ export interface Database {
           address: string | null
           created_at: string
           id: number
+          voters: number | null
         }
         Insert: {
           address?: string | null
           created_at?: string
           id?: number
+          voters?: number | null
         }
         Update: {
           address?: string | null
           created_at?: string
           id?: number
+          voters?: number | null
         }
         Relationships: []
       }
