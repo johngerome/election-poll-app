@@ -1,3 +1,5 @@
+'use client'
+
 import { Container } from "@/components/ui/container";
 import { PageHeader, SectionTitle } from "@/components/ui/heading";
 import { PollItem, PollResults } from "@/components/ui/pollResults";
