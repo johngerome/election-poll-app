@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
-import React from "react";
+import React, { useMemo } from "react";
 import { Button } from "./button";
 import { Input } from "./input";
 
@@ -29,9 +29,12 @@ type PollItem = {
   name: string;
   partyList: string;
   votes: number;
+  maxVotes: number;
 };
 
-export function PollItem({ placement, avatar, name, partyList, votes }: PollItem) {
+export function PollItem({ placement, avatar, name, partyList, votes, maxVotes }: PollItem) {
+  const progress = useMemo(() => (votes / maxVotes) * 100, [votes, maxVotes]);
+
   return (
     <>
       <li className='flex space-x-4 relative'>
@@ -70,7 +73,7 @@ export function PollItem({ placement, avatar, name, partyList, votes }: PollItem
             <span className='flex-none font-semibold text-primary'>{votes}</span>
             <span className='text-gray-400 text-sm'>Votes</span>
           </p>
-          <Progress value={33} className='h-2' />
+          <Progress value={progress} className='h-2' />
         </div>
       </li>
     </>

@@ -20,6 +20,7 @@ export default function Results() {
             partyList='NPA'
             placement={1}
             votes={1000}
+            maxVotes={3000}
           ></PollItem>
           <PollItem
             key={2}
@@ -28,6 +29,7 @@ export default function Results() {
             partyList='Independent'
             placement={2}
             votes={800}
+            maxVotes={3000}
           ></PollItem>
         </PollResults>
         <SectionTitle>Kagawad, Sangguniang Barangay</SectionTitle>
