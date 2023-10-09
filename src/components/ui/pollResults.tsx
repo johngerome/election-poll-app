@@ -99,6 +99,11 @@ function AlertUpdateVotes({
   last_name,
   votes,
 }: PropsAlertUpdateVotes) {
+  function handleBlur(e: React.ChangeEvent<HTMLInputElement>) {
+    const target = e?.target;
+    console.log(target?.value);
+  }
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -119,7 +124,7 @@ function AlertUpdateVotes({
           <form action='' className='block py-3'>
             <label className='text-sm'>
               New Votes
-              <Input type='text' value={votes} required />
+              <Input type='text' value={votes} required onChange={handleBlur} />
             </label>
           </form>
         </AlertDialogHeader>
