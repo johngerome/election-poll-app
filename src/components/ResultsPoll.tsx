@@ -14,27 +14,26 @@ type PropsResultsPoll = {
   position: string;
 };
 
-// type Candidate = Pick<
-//   Database["public"]["Tables"]["candidates"]["Row"],
-//   "first_name" | "last_name" | "avatar" | "id" | "nickname" | "position"
-// > & {
-//   location: {
-//     id: number;
-//     address: string | null;
-//   } | null;
-//   party_list: {
-//     name: string | null;
-//   } | null;
-//   votes: { votes: number }[];
-// };
-// type Candidates = Candidate[];
-
 export default function ResultsPoll({
   locationId,
   position,
   maxVoters,
 }: PropsResultsPoll) {
   const supabase = createClientComponentClient<Database>();
+
+  const { data: session } = useQuery({
+    queryKey: ['session'],
+    queryFn: async () => {
+      const res = await supabase.auth.refreshSession();
+      const { session } = res?.data;
+
+      if (res.error) {
+        return Promise.reject(res?.error?.message);
+      }
+
+      return session;
+    },
+  });
 
   const { isLoading, data, error, refetch } = useQuery({
     queryKey: ['results', position, locationId],
@@ -79,7 +78,7 @@ export default function ResultsPoll({
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'votes' },
-        (payload) => {
+        () => {
           refetch();
         }
       )
@@ -117,6 +116,7 @@ export default function ResultsPoll({
             placement={index + 1}
             votes={item?.votes}
             maxVotes={maxVoters}
+            isShowUpdate={!!session?.user.id}
           ></PollItem>
         ))}
     </PollResults>

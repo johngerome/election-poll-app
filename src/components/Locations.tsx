@@ -2,10 +2,11 @@
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database';
-import { Button } from './ui/button';
 import { useEffect } from 'react';
-import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
+
+import { Button } from './ui/button';
 
 export default function Locations() {
   const supabase = createClientComponentClient<Database>();

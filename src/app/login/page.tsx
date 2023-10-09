@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Icon } from '@iconify-icon/react';
+import { Icon } from '@iconify/react';
 
 import type { Database } from '@/lib/database';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -27,6 +27,7 @@ const formSchema = z.object({
 });
 
 export default function Login() {
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
   const supabase = createClientComponentClient<Database>();
@@ -40,17 +41,21 @@ export default function Login() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
+
     const { error: _error } = await supabase.auth.signInWithPassword({
       email: values?.email,
       password: values?.password,
     });
+
+    setIsLoading(false);
 
     if (_error) {
       setError(_error.message);
       return;
     }
 
-    router.refresh();
+    router.push('/');
   }
 
   // const handleSignUp = async () => {
@@ -61,11 +66,6 @@ export default function Login() {
   //       emailRedirectTo: `${location.origin}/auth/callback`
   //     }
   //   });
-  //   router.refresh();
-  // };
-
-  // const handleSignOut = async () => {
-  //   await supabase.auth.signOut();
   //   router.refresh();
   // };
 
@@ -123,7 +123,12 @@ export default function Login() {
             )}
           />
 
-          <Button type='submit' className='w-full'>
+          <Button
+            type='submit'
+            className='w-full'
+            disabled={isLoading}
+            isLoading={isLoading}
+          >
             Sign in
           </Button>
         </form>

@@ -59,50 +59,73 @@ export function PollItem({
           <AvatarFallback>{first_name?.charAt(0)}</AvatarFallback>
         </Avatar>
         <div className='flex w-full flex-1 flex-col space-y-1'>
-          <h3 className='flex-none font-bold uppercase text-slate-800'>
-            {first_name}, {nickname && `"${nickname}"`} {last_name}{' '}
-            <span className='text-xs font-normal'>({partyList})</span>
-          </h3>
-          {isShowUpdate && (
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button
-                  variant='default'
-                  size={'sm'}
-                  className='-top-1 right-0 flex-none md:absolute md:ml-auto md:w-32'
-                >
-                  Update Votes
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    {first_name}, {nickname && `"${nickname}"`} {last_name}
-                  </AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Current Votes: {votes}
-                  </AlertDialogDescription>
-                  <form action='' className='block py-3'>
-                    <Input type='text' value={1000} required />
-                  </form>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction>Update</AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          )}
+          <div className='flex flex-1 flex-row-reverse flex-wrap justify-end md:flex-nowrap'>
+            {isShowUpdate && (
+              <AlertUpdateVotes
+                first_name={first_name}
+                last_name={last_name}
+                nickname={nickname}
+                votes={votes}
+              />
+            )}
+            <div className='flex flex-col'>
+              <h3 className='flex-none break-all font-bold uppercase text-slate-800'>
+                {first_name}, {nickname && `"${nickname}"`} {last_name}{' '}
+                <span className='text-xs font-normal'>({partyList})</span>
+              </h3>
+              <p className='flex-1 space-x-2'>
+                <span className='flex-none font-semibold text-primary'>
+                  {votes}
+                </span>
+                <span className='text-sm text-gray-400'>Votes</span>
+              </p>
+            </div>
+          </div>
 
-          <p className='flex-1 space-x-2'>
-            <span className='flex-none font-semibold text-primary'>
-              {votes}
-            </span>
-            <span className='text-sm text-gray-400'>Votes</span>
-          </p>
           <Progress value={progress} className='h-2' />
         </div>
       </li>
     </>
+  );
+}
+
+type PropsAlertUpdateVotes = Partial<PropsPollItem>;
+
+function AlertUpdateVotes({
+  first_name,
+  nickname,
+  last_name,
+  votes,
+}: PropsAlertUpdateVotes) {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button
+          variant='default'
+          size={'sm'}
+          className='-top-1 right-0 mb-2 w-full flex-none md:mb-0 md:ml-auto md:w-auto'
+        >
+          Update
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>
+            {first_name}, {nickname && `"${nickname}"`} {last_name}
+          </AlertDialogTitle>
+          <p>Current Votes: {votes}</p>
+          <form action='' className='block py-3'>
+            <label className='text-sm'>
+              New Votes
+              <Input type='text' value={votes} required />
+            </label>
+          </form>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction>Update</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
