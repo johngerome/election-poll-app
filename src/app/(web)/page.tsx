@@ -1,5 +1,4 @@
 import Locations from "@/components/Locations";
-import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PageHeader } from "@/components/ui/heading";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";

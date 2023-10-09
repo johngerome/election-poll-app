@@ -3,46 +3,31 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Database } from "@/lib/database";
 import { Button } from "./ui/button";
-import { useEffect, useState } from "react";
-
-type Location = Database["public"]["Tables"]["location"]["Row"];
-type Locations = Location[];
+import { useEffect } from "react";
+import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Locations() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [locations, setLocations] = useState<Locations | []>([]);
   const supabase = createClientComponentClient<Database>();
 
-  useEffect(() => {
-    async function loadLocations() {
-      setIsLoading(true);
+  const { isLoading, data, error, refetch } = useQuery({
+    queryKey: ["locations"],
+    queryFn: async () => {
+      const res = await supabase.from("location").select().order("address", { ascending: true });
 
-      const { data } = await supabase.from("location").select();
+      if (res?.error) {
+        return Promise.reject(res?.error?.message);
+      }
 
-      setIsLoading(false);
-      setLocations(data || []);
+      return res?.data;
     }
-
-    loadLocations();
-  }, []);
+  });
 
   useEffect(() => {
     const locationsEvents = supabase
       .channel("custom-insert-channel")
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "location" }, (payload) => {
-        setLocations((value: any) => {
-          return [...value, ...[payload.new]];
-        });
-      })
-      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "location" }, (payload) => {
-        setLocations((value: any) => {
-          return value?.map((item: Location) => {
-            if (item.id === payload.new.id) {
-              return payload.new as Location;
-            }
-            return item;
-          });
-        });
+      .on("postgres_changes", { event: "*", schema: "public", table: "location" }, () => {
+        refetch();
       })
       .subscribe();
     return () => {
@@ -50,18 +35,26 @@ export default function Locations() {
     };
   }, []);
 
-  if (!isLoading && ((locations && locations.length <= 0) || !locations)) {
+  if (isLoading) {
+    return <p>loading...</p>;
+  }
+
+  if (typeof error === "string") {
+    return <p className='mb-12 text-red-500'>{error}</p>;
+  }
+
+  if (data && data?.length <= 0) {
     return <p>Locations not found.</p>;
   }
 
   return (
     <ul className='flex space-x-6'>
-      {isLoading && <p>loading...</p>}
-      {locations &&
-        locations?.length >= 1 &&
-        locations?.map((item) => (
+      {data &&
+        data?.map((item) => (
           <li key={item.id}>
-            <Button variant={"outline"}>{item.address}</Button>
+            <Button variant={"outline"} asChild>
+              <Link href={`/barangay/${item.id}`}>{item.address}</Link>
+            </Button>
           </li>
         ))}
     </ul>

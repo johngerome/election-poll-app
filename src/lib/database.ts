@@ -17,9 +17,10 @@ export interface Database {
           first_name: string | null
           id: number
           last_name: string | null
+          location_id: number | null
           nickname: string | null
           number: number | null
-          partylist_id: number | null
+          party_list_id: number | null
           position: string | null
         }
         Insert: {
@@ -29,9 +30,10 @@ export interface Database {
           first_name?: string | null
           id?: number
           last_name?: string | null
+          location_id?: number | null
           nickname?: string | null
           number?: number | null
-          partylist_id?: number | null
+          party_list_id?: number | null
           position?: string | null
         }
         Update: {
@@ -41,49 +43,45 @@ export interface Database {
           first_name?: string | null
           id?: number
           last_name?: string | null
+          location_id?: number | null
           nickname?: string | null
           number?: number | null
-          partylist_id?: number | null
+          party_list_id?: number | null
           position?: string | null
         }
-        Relationships: []
-      }
-      candidates_location: {
-        Row: {
-          candidate_id: number | null
-          created_at: string
-          id: number
-          location_id: number | null
-        }
-        Insert: {
-          candidate_id?: number | null
-          created_at?: string
-          id?: number
-          location_id?: number | null
-        }
-        Update: {
-          candidate_id?: number | null
-          created_at?: string
-          id?: number
-          location_id?: number | null
-        }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "candidates_location_id_fkey"
+            columns: ["location_id"]
+            referencedRelation: "location"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "candidates_party_list_id_fkey"
+            columns: ["party_list_id"]
+            referencedRelation: "party_list"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       location: {
         Row: {
           address: string | null
           created_at: string
           id: number
+          voters: number | null
         }
         Insert: {
           address?: string | null
           created_at?: string
           id?: number
+          voters?: number | null
         }
         Update: {
           address?: string | null
           created_at?: string
           id?: number
+          voters?: number | null
         }
         Relationships: []
       }
@@ -113,30 +111,43 @@ export interface Database {
       }
       votes: {
         Row: {
-          candidate_id: number | null
+          candidate_id: number
           created_at: string
           id: number
           updated_at: string | null
-          user_id: number | null
+          user_id: string | null
           votes: number | null
         }
         Insert: {
-          candidate_id?: number | null
+          candidate_id: number
           created_at?: string
           id?: number
           updated_at?: string | null
-          user_id?: number | null
+          user_id?: string | null
           votes?: number | null
         }
         Update: {
-          candidate_id?: number | null
+          candidate_id?: number
           created_at?: string
           id?: number
           updated_at?: string | null
-          user_id?: number | null
+          user_id?: string | null
           votes?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "votes_candidate_id_fkey"
+            columns: ["candidate_id"]
+            referencedRelation: "candidates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "votes_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {

@@ -15,15 +15,15 @@ import React, { useMemo } from "react";
 import { Button } from "./button";
 import { Input } from "./input";
 
-type PollResults = {
+type PropsPollResults = {
   children: React.ReactNode;
 };
 
-export function PollResults({ children }: PollResults) {
+export function PollResults({ children }: PropsPollResults) {
   return <ul className='space-y-6 mb-12'>{children}</ul>;
 }
 
-type PollItem = {
+type PropsPollItem = {
   placement: number;
   avatar?: string;
   name: string;
@@ -33,7 +33,7 @@ type PollItem = {
   isShowUpdate?: boolean;
 };
 
-export function PollItem({ placement, avatar, name, partyList, votes, maxVotes, isShowUpdate }: PollItem) {
+export function PollItem({ placement, avatar, name, partyList, votes, maxVotes, isShowUpdate }: PropsPollItem) {
   const progress = useMemo(() => (votes / maxVotes) * 100, [votes, maxVotes]);
 
   return (
