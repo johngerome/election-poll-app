@@ -61,7 +61,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         {...props}
       >
-        <span>
+        <span className='flex items-center'>
           {children}
           {isLoading && <Icon icon='eos-icons:three-dots-loading' width={30} />}
         </span>
