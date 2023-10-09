@@ -61,10 +61,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         {...props}
       >
-        <>
+        <span>
           {children}
           {isLoading && <Icon icon='eos-icons:three-dots-loading' width={30} />}
-        </>
+        </span>
       </Comp>
     );
   }
