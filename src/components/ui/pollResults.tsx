@@ -75,7 +75,9 @@ export function PollItem({
               </h3>
               <p className='flex-1 space-x-2'>
                 <span className='flex-none font-semibold text-primary'>
-                  {votes}
+                  {new Intl.NumberFormat('en-IN', {
+                    maximumSignificantDigits: 3,
+                  }).format(votes)}
                 </span>
                 <span className='text-sm text-gray-400'>Votes</span>
               </p>
