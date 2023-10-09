@@ -42,6 +42,11 @@ export default async function ResultsByLocation({
         maxVoters={location?.voters || 10000}
       />
       <SectionTitle>Kagawad, Sangguniang Barangay</SectionTitle>
+      <ResultsPoll
+        locationId={params?.slug}
+        position={'Kagawad'}
+        maxVoters={location?.voters || 10000}
+      />
       <div className='mt-12 text-sm text-gray-400'>
         <h4 className='mb-3'>Disclaimer</h4>
         <p>

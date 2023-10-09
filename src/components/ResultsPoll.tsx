@@ -37,7 +37,7 @@ export default function ResultsPoll({
   const supabase = createClientComponentClient<Database>();
 
   const { isLoading, data, error, refetch } = useQuery({
-    queryKey: ['results'],
+    queryKey: ['results', position, locationId],
     queryFn: async () => {
       const res = await supabase
         .from('candidates')
@@ -110,7 +110,9 @@ export default function ResultsPoll({
           <PollItem
             key={item.id}
             avatar={`https://i.pravatar.cc/150?img=${index + 1}`}
-            name={`${item.last_name}, ${item.first_name}`}
+            first_name={item.first_name}
+            last_name={item.last_name}
+            nickname={item.nickname}
             partyList={item?.party_list || ''}
             placement={index + 1}
             votes={item?.votes}

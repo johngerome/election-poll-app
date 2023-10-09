@@ -26,7 +26,9 @@ export function PollResults({ children }: PropsPollResults) {
 type PropsPollItem = {
   placement: number;
   avatar?: string;
-  name: string;
+  first_name: string | null;
+  last_name: string | null;
+  nickname: string | null;
   partyList: string;
   votes: number;
   maxVotes: number;
@@ -36,7 +38,9 @@ type PropsPollItem = {
 export function PollItem({
   placement,
   avatar,
-  name,
+  first_name,
+  last_name,
+  nickname,
   partyList,
   votes,
   maxVotes,
@@ -52,11 +56,12 @@ export function PollItem({
         </span>
         <Avatar className='flex-none'>
           <AvatarImage src={avatar} />
-          <AvatarFallback>{name.charAt(0)}</AvatarFallback>
+          <AvatarFallback>{first_name?.charAt(0)}</AvatarFallback>
         </Avatar>
         <div className='flex w-full flex-1 flex-col space-y-1'>
           <h3 className='flex-none font-bold uppercase text-slate-800'>
-            {name} <span className='text-xs font-normal'>({partyList})</span>
+            {first_name}, {nickname && `"${nickname}"`} {last_name}{' '}
+            <span className='text-xs font-normal'>({partyList})</span>
           </h3>
           {isShowUpdate && (
             <AlertDialog>
@@ -71,9 +76,11 @@ export function PollItem({
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>{name}</AlertDialogTitle>
+                  <AlertDialogTitle>
+                    {first_name}, {nickname && `"${nickname}"`} {last_name}
+                  </AlertDialogTitle>
                   <AlertDialogDescription>
-                    Current Votes: 1000
+                    Current Votes: {votes}
                   </AlertDialogDescription>
                   <form action='' className='block py-3'>
                     <Input type='text' value={1000} required />
