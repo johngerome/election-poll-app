@@ -20,6 +20,9 @@ export default function AuthLayout({
         </div>
       </header>
       <main>{children}</main>
+      <footer className='py-6 text-center text-sm text-gray-500'>
+        &copy; Barangay Election 2023
+      </footer>
     </div>
   );
 }
