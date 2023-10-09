@@ -1,15 +1,16 @@
-'use client'
+'use client';
 
-import { Container } from "@/components/ui/container";
-import { PageHeader, SectionTitle } from "@/components/ui/heading";
-import { PollItem, PollResults } from "@/components/ui/pollResults";
+import { Container } from '@/components/ui/container';
+import { PageHeader, SectionTitle } from '@/components/ui/heading';
+import { PollItem, PollResults } from '@/components/ui/pollResults';
 
 export default function Results() {
   return (
     <>
       <Container>
         <PageHeader title='Barangay Guinacot'>
-          Partial, unofficial results as of <strong>October 26, 2023, 10:00AM.</strong>
+          Partial, unofficial results as of{' '}
+          <strong>October 26, 2023, 10:00AM.</strong>
         </PageHeader>
         <SectionTitle>Punong Barangay</SectionTitle>
         <PollResults>

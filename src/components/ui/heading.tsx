@@ -3,7 +3,7 @@ type PropsSectionTitle = {
 };
 
 export function SectionTitle({ children }: PropsSectionTitle) {
-  return <h2 className='font-bold text-lg mb-6'>{children}</h2>;
+  return <h2 className='mb-6 text-lg font-bold'>{children}</h2>;
 }
 
 type PropsPageHeader = {
@@ -14,8 +14,8 @@ type PropsPageHeader = {
 export function PageHeader({ title, children }: PropsPageHeader) {
   return (
     <div className='mb-6'>
-      <h1 className='text-2xl md:text-3xl font-bold mb-2'>{title}</h1>
-      <p className='text-gray-500 mb-0 text-sm'>{children}</p>
+      <h1 className='mb-2 text-2xl font-bold md:text-3xl'>{title}</h1>
+      <p className='mb-0 text-sm text-gray-500'>{children}</p>
     </div>
   );
 }

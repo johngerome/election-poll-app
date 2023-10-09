@@ -4,163 +4,163 @@ export type Json =
   | boolean
   | null
   | { [key: string]: Json | undefined }
-  | Json[]
+  | Json[];
 
 export interface Database {
   public: {
     Tables: {
       candidates: {
         Row: {
-          address: string | null
-          avatar: string | null
-          created_at: string
-          first_name: string | null
-          id: number
-          last_name: string | null
-          location_id: number | null
-          nickname: string | null
-          number: number | null
-          party_list_id: number | null
-          position: string | null
-        }
+          address: string | null;
+          avatar: string | null;
+          created_at: string;
+          first_name: string | null;
+          id: number;
+          last_name: string | null;
+          location_id: number | null;
+          nickname: string | null;
+          number: number | null;
+          party_list_id: number | null;
+          position: string | null;
+        };
         Insert: {
-          address?: string | null
-          avatar?: string | null
-          created_at?: string
-          first_name?: string | null
-          id?: number
-          last_name?: string | null
-          location_id?: number | null
-          nickname?: string | null
-          number?: number | null
-          party_list_id?: number | null
-          position?: string | null
-        }
+          address?: string | null;
+          avatar?: string | null;
+          created_at?: string;
+          first_name?: string | null;
+          id?: number;
+          last_name?: string | null;
+          location_id?: number | null;
+          nickname?: string | null;
+          number?: number | null;
+          party_list_id?: number | null;
+          position?: string | null;
+        };
         Update: {
-          address?: string | null
-          avatar?: string | null
-          created_at?: string
-          first_name?: string | null
-          id?: number
-          last_name?: string | null
-          location_id?: number | null
-          nickname?: string | null
-          number?: number | null
-          party_list_id?: number | null
-          position?: string | null
-        }
+          address?: string | null;
+          avatar?: string | null;
+          created_at?: string;
+          first_name?: string | null;
+          id?: number;
+          last_name?: string | null;
+          location_id?: number | null;
+          nickname?: string | null;
+          number?: number | null;
+          party_list_id?: number | null;
+          position?: string | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "candidates_location_id_fkey"
-            columns: ["location_id"]
-            referencedRelation: "location"
-            referencedColumns: ["id"]
+            foreignKeyName: 'candidates_location_id_fkey';
+            columns: ['location_id'];
+            referencedRelation: 'location';
+            referencedColumns: ['id'];
           },
           {
-            foreignKeyName: "candidates_party_list_id_fkey"
-            columns: ["party_list_id"]
-            referencedRelation: "party_list"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
+            foreignKeyName: 'candidates_party_list_id_fkey';
+            columns: ['party_list_id'];
+            referencedRelation: 'party_list';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       location: {
         Row: {
-          address: string | null
-          created_at: string
-          id: number
-          voters: number | null
-        }
+          address: string | null;
+          created_at: string;
+          id: number;
+          voters: number | null;
+        };
         Insert: {
-          address?: string | null
-          created_at?: string
-          id?: number
-          voters?: number | null
-        }
+          address?: string | null;
+          created_at?: string;
+          id?: number;
+          voters?: number | null;
+        };
         Update: {
-          address?: string | null
-          created_at?: string
-          id?: number
-          voters?: number | null
-        }
-        Relationships: []
-      }
+          address?: string | null;
+          created_at?: string;
+          id?: number;
+          voters?: number | null;
+        };
+        Relationships: [];
+      };
       party_list: {
         Row: {
-          abbreviation: string | null
-          created_at: string
-          description: string | null
-          id: number
-          name: string | null
-        }
+          abbreviation: string | null;
+          created_at: string;
+          description: string | null;
+          id: number;
+          name: string | null;
+        };
         Insert: {
-          abbreviation?: string | null
-          created_at?: string
-          description?: string | null
-          id?: number
-          name?: string | null
-        }
+          abbreviation?: string | null;
+          created_at?: string;
+          description?: string | null;
+          id?: number;
+          name?: string | null;
+        };
         Update: {
-          abbreviation?: string | null
-          created_at?: string
-          description?: string | null
-          id?: number
-          name?: string | null
-        }
-        Relationships: []
-      }
+          abbreviation?: string | null;
+          created_at?: string;
+          description?: string | null;
+          id?: number;
+          name?: string | null;
+        };
+        Relationships: [];
+      };
       votes: {
         Row: {
-          candidate_id: number
-          created_at: string
-          id: number
-          updated_at: string | null
-          user_id: string | null
-          votes: number | null
-        }
+          candidate_id: number;
+          created_at: string;
+          id: number;
+          updated_at: string | null;
+          user_id: string | null;
+          votes: number | null;
+        };
         Insert: {
-          candidate_id: number
-          created_at?: string
-          id?: number
-          updated_at?: string | null
-          user_id?: string | null
-          votes?: number | null
-        }
+          candidate_id: number;
+          created_at?: string;
+          id?: number;
+          updated_at?: string | null;
+          user_id?: string | null;
+          votes?: number | null;
+        };
         Update: {
-          candidate_id?: number
-          created_at?: string
-          id?: number
-          updated_at?: string | null
-          user_id?: string | null
-          votes?: number | null
-        }
+          candidate_id?: number;
+          created_at?: string;
+          id?: number;
+          updated_at?: string | null;
+          user_id?: string | null;
+          votes?: number | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "votes_candidate_id_fkey"
-            columns: ["candidate_id"]
-            referencedRelation: "candidates"
-            referencedColumns: ["id"]
+            foreignKeyName: 'votes_candidate_id_fkey';
+            columns: ['candidate_id'];
+            referencedRelation: 'candidates';
+            referencedColumns: ['id'];
           },
           {
-            foreignKeyName: "votes_user_id_fkey"
-            columns: ["user_id"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-    }
+            foreignKeyName: 'votes_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+    };
     Views: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Functions: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Enums: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     CompositeTypes: {
-      [_ in never]: never
-    }
-  }
+      [_ in never]: never;
+    };
+  };
 }

@@ -7,20 +7,20 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger
-} from "@/components/ui/alert-dialog";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Progress } from "@/components/ui/progress";
-import React, { useMemo } from "react";
-import { Button } from "./button";
-import { Input } from "./input";
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Progress } from '@/components/ui/progress';
+import React, { useMemo } from 'react';
+import { Button } from './button';
+import { Input } from './input';
 
 type PropsPollResults = {
   children: React.ReactNode;
 };
 
 export function PollResults({ children }: PropsPollResults) {
-  return <ul className='space-y-6 mb-12'>{children}</ul>;
+  return <ul className='mb-12 space-y-6'>{children}</ul>;
 }
 
 type PropsPollItem = {
@@ -33,35 +33,49 @@ type PropsPollItem = {
   isShowUpdate?: boolean;
 };
 
-export function PollItem({ placement, avatar, name, partyList, votes, maxVotes, isShowUpdate }: PropsPollItem) {
+export function PollItem({
+  placement,
+  avatar,
+  name,
+  partyList,
+  votes,
+  maxVotes,
+  isShowUpdate,
+}: PropsPollItem) {
   const progress = useMemo(() => (votes / maxVotes) * 100, [votes, maxVotes]);
 
   return (
     <>
-      <li className='flex space-x-4 relative'>
-        <span className='flex-none w-4 h-4 rounded-full flex items-center justify-center bg-slate-200 p-3 font-semibold text-gray-500'>
+      <li className='relative flex space-x-4'>
+        <span className='flex h-4 w-4 flex-none items-center justify-center rounded-full bg-slate-200 p-3 font-semibold text-gray-500'>
           {placement}
         </span>
         <Avatar className='flex-none'>
           <AvatarImage src={avatar} />
           <AvatarFallback>{name.charAt(0)}</AvatarFallback>
         </Avatar>
-        <div className='flex flex-1 flex-col space-y-1 w-full'>
-          <h3 className='font-bold text-slate-800 flex-none uppercase'>
-            {name} <span className='font-normal text-xs'>({partyList})</span>
+        <div className='flex w-full flex-1 flex-col space-y-1'>
+          <h3 className='flex-none font-bold uppercase text-slate-800'>
+            {name} <span className='text-xs font-normal'>({partyList})</span>
           </h3>
           {isShowUpdate && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant='default' size={"sm"} className='flex-none md:w-32 md:ml-auto md:absolute -top-1 right-0'>
+                <Button
+                  variant='default'
+                  size={'sm'}
+                  className='-top-1 right-0 flex-none md:absolute md:ml-auto md:w-32'
+                >
                   Update Votes
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>{name}</AlertDialogTitle>
-                  <AlertDialogDescription>Current Votes: 1000</AlertDialogDescription>
-                  <form action='' className='py-3 block'>
+                  <AlertDialogDescription>
+                    Current Votes: 1000
+                  </AlertDialogDescription>
+                  <form action='' className='block py-3'>
                     <Input type='text' value={1000} required />
                   </form>
                 </AlertDialogHeader>
@@ -73,9 +87,11 @@ export function PollItem({ placement, avatar, name, partyList, votes, maxVotes, 
             </AlertDialog>
           )}
 
-          <p className='space-x-2 flex-1'>
-            <span className='flex-none font-semibold text-primary'>{votes}</span>
-            <span className='text-gray-400 text-sm'>Votes</span>
+          <p className='flex-1 space-x-2'>
+            <span className='flex-none font-semibold text-primary'>
+              {votes}
+            </span>
+            <span className='text-sm text-gray-400'>Votes</span>
           </p>
           <Progress value={progress} className='h-2' />
         </div>

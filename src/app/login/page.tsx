@@ -1,41 +1,48 @@
-"use client";
+'use client';
 
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Icon } from "@iconify-icon/react";
+import * as z from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Icon } from '@iconify-icon/react';
 
-import type { Database } from "@/lib/database";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { useState } from "react";
+import type { Database } from '@/lib/database';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { useState } from 'react';
 
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(1, "This field is required")
+  password: z.string().min(1, 'This field is required'),
 });
 
 export default function Login() {
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const router = useRouter();
   const supabase = createClientComponentClient<Database>();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: ""
-    }
+      email: '',
+      password: '',
+    },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { error: _error } = await supabase.auth.signInWithPassword({
       email: values?.email,
-      password: values?.password
+      password: values?.password,
     });
 
     if (_error) {
@@ -63,12 +70,16 @@ export default function Login() {
   // };
 
   return (
-    <div className='w-full max-w-md border border-gray-200 mx-auto mt-12 p-6 md:p-12 bg-white rounded-md'>
-      <h1 className='text-2xl font-bold mb-6 text-center'>Admin Login</h1>
+    <div className='mx-auto mt-12 w-full max-w-md rounded-md border border-gray-200 bg-white p-6 md:p-12'>
+      <h1 className='mb-6 text-center text-2xl font-bold'>Admin Login</h1>
       <Form {...form}>
         {error && (
-          <Alert variant={"destructive"} className='flex space-x-3 mb-6'>
-            <Icon icon={"mingcute:warning-fill"} width={24} className=' flex-none' />
+          <Alert variant={'destructive'} className='mb-6 flex space-x-3'>
+            <Icon
+              icon={'mingcute:warning-fill'}
+              width={24}
+              className=' flex-none'
+            />
             <div>
               <AlertTitle>Error</AlertTitle>
               <AlertDescription>{error}</AlertDescription>
@@ -76,7 +87,11 @@ export default function Login() {
           </Alert>
         )}
 
-        <form noValidate onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+        <form
+          noValidate
+          onSubmit={form.handleSubmit(onSubmit)}
+          className='space-y-8'
+        >
           <FormField
             control={form.control}
             name='email'
@@ -97,7 +112,11 @@ export default function Login() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type='password' {...form.register("password", { required: true })} required />
+                  <Input
+                    type='password'
+                    {...form.register('password', { required: true })}
+                    required
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
