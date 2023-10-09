@@ -55,10 +55,10 @@ export default function Locations() {
   }
 
   return (
-    <ul className='flex space-x-6'>
+    <ul className='-mx-2 flex flex-wrap'>
       {data &&
         data?.map((item) => (
-          <li key={item.id}>
+          <li key={item.id} className='p-2'>
             <Button variant={'outline'} asChild>
               <Link href={`/barangay/${item.id}`}>{item.address}</Link>
             </Button>
