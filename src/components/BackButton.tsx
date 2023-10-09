@@ -15,7 +15,7 @@ export default function BackButton({ href, className }: Props) {
     <Button
       variant={'outline'}
       size={'sm'}
-      className={cn(`mb-12 p-2`, className)}
+      className={cn(`mb-6 p-2`, className)}
       asChild
     >
       <Link href={href}>
