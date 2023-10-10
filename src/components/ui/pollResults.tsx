@@ -14,6 +14,7 @@ import { Progress } from '@/components/ui/progress';
 import React, { useMemo } from 'react';
 import { Button } from './button';
 import { Input } from './input';
+import { numNth } from '@/lib/utils';
 
 type PropsPollResults = {
   children: React.ReactNode;
@@ -51,8 +52,8 @@ export function PollItem({
   return (
     <>
       <li className='relative flex space-x-4'>
-        <span className='flex h-4 w-4 flex-none items-center justify-center rounded-full bg-slate-200 p-3 font-semibold text-gray-500'>
-          {placement}
+        <span className='mb-auto flex w-6 flex-none items-center justify-center rounded-full text-sm font-semibold text-gray-500'>
+          {numNth(placement)}
         </span>
         <Avatar className='flex-none'>
           <AvatarImage src={avatar} />
