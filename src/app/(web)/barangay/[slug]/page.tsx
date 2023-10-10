@@ -6,7 +6,7 @@ import { PageHeader, SectionTitle } from '@/components/ui/heading';
 import BackButton from '@/components/BackButton';
 import ResultsUpdatedAt from '@/components/ResultsUpdatedAt';
 
-export default async function ResultsByLocation({
+export default async function ResultsByBarangay({
   params,
 }: {
   params: { slug: string };
@@ -15,24 +15,24 @@ export default async function ResultsByLocation({
   const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   const { data, error } = await supabase
-    .from('location')
-    .select('address, voters')
+    .from('barangays')
+    .select('name, voters')
     .eq('id', params?.slug);
 
   if (error) {
     return <p className='text-red-500'>{error?.message}</p>;
   }
 
-  const [location] = data;
+  const [barangay] = data;
 
-  if (!location) {
+  if (!barangay) {
     return <p>Barangay Not Found.</p>;
   }
 
   return (
     <div>
       <BackButton href='/' className='-mt-10' />
-      <PageHeader title={`Barangay ${location?.address}`}>
+      <PageHeader title={`Barangay ${barangay?.name}`}>
         Partial, unofficial results as of{' '}
         <ResultsUpdatedAt locationId={params?.slug} />
       </PageHeader>
@@ -40,13 +40,13 @@ export default async function ResultsByLocation({
       <ResultsPoll
         locationId={params?.slug}
         position={'Punong Barangay'}
-        maxVoters={location?.voters || 10000}
+        maxVoters={barangay?.voters || 10000}
       />
       <SectionTitle>Kagawad, Sangguniang Barangay</SectionTitle>
       <ResultsPoll
         locationId={params?.slug}
         position={'Kagawad'}
-        maxVoters={location?.voters || 10000}
+        maxVoters={barangay?.voters || 10000}
       />
       <div className='mt-12 text-sm text-gray-400'>
         <h4 className='mb-3'>Disclaimer</h4>

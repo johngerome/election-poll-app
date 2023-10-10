@@ -9,6 +9,27 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      barangays: {
+        Row: {
+          created_at: string;
+          id: number;
+          name: string | null;
+          voters: number | null;
+        };
+        Insert: {
+          created_at?: string;
+          id?: number;
+          name?: string | null;
+          voters?: number | null;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          name?: string | null;
+          voters?: number | null;
+        };
+        Relationships: [];
+      };
       candidates: {
         Row: {
           address: string | null;
@@ -53,7 +74,7 @@ export interface Database {
           {
             foreignKeyName: 'candidates_location_id_fkey';
             columns: ['location_id'];
-            referencedRelation: 'location';
+            referencedRelation: 'barangays';
             referencedColumns: ['id'];
           },
           {
@@ -64,23 +85,23 @@ export interface Database {
           },
         ];
       };
-      location: {
+      municipalities: {
         Row: {
-          address: string | null;
           created_at: string;
           id: number;
+          name: string | null;
           voters: number | null;
         };
         Insert: {
-          address?: string | null;
           created_at?: string;
           id?: number;
+          name?: string | null;
           voters?: number | null;
         };
         Update: {
-          address?: string | null;
           created_at?: string;
           id?: number;
+          name?: string | null;
           voters?: number | null;
         };
         Relationships: [];

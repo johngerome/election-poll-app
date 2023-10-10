@@ -46,7 +46,7 @@ export default function ResultsPoll({
         .select(
           `
             id, first_name, last_name, nickname, location_id,
-            location (id, address),
+            barangays (id, name),
             party_list (name),
             votes (votes, updated_at)
           `

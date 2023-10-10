@@ -8,16 +8,16 @@ import Link from 'next/link';
 
 import { Button } from './ui/button';
 
-export default function Locations() {
+export default function BarangayList() {
   const supabase = createClientComponentClient<Database>();
 
   const { isLoading, data, error, refetch } = useQuery({
-    queryKey: ['locations'],
+    queryKey: ['barangays'],
     queryFn: async () => {
       const res = await supabase
-        .from('location')
+        .from('barangays')
         .select()
-        .order('address', { ascending: true });
+        .order('name', { ascending: true });
 
       if (res?.error) {
         return Promise.reject(res?.error?.message);
@@ -32,7 +32,7 @@ export default function Locations() {
       .channel('custom-insert-channel')
       .on(
         'postgres_changes',
-        { event: '*', schema: 'public', table: 'location' },
+        { event: '*', schema: 'public', table: 'barangays' },
         () => {
           refetch();
         }
@@ -61,7 +61,7 @@ export default function Locations() {
         data?.map((item) => (
           <li key={item.id} className='p-2'>
             <Button variant={'outline'} asChild>
-              <Link href={`/barangay/${item.id}`}>{item.address}</Link>
+              <Link href={`/barangay/${item.id}`}>{item.name}</Link>
             </Button>
           </li>
         ))}
