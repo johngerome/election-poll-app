@@ -16,8 +16,8 @@ export default async function ResultsByBarangay({
 
   const { data, error } = await supabase
     .from('barangays')
-    .select('name, voters')
-    .eq('id', params?.slug);
+    .select('id, name, voters')
+    .eq('slug', params?.slug);
 
   if (error) {
     return <p className='text-red-500'>{error?.message}</p>;
@@ -34,17 +34,17 @@ export default async function ResultsByBarangay({
       <BackButton href='/' className='-mt-10' />
       <PageHeader title={`Barangay ${barangay?.name}`}>
         Partial, unofficial results as of{' '}
-        <ResultsUpdatedAt locationId={params?.slug} />
+        <ResultsUpdatedAt locationId={barangay?.id} />
       </PageHeader>
       <SectionTitle>Punong Barangay</SectionTitle>
       <ResultsPoll
-        locationId={params?.slug}
+        locationId={barangay?.id}
         position={'Punong Barangay'}
         maxVoters={barangay?.voters || 10000}
       />
       <SectionTitle>Kagawad, Sangguniang Barangay</SectionTitle>
       <ResultsPoll
-        locationId={params?.slug}
+        locationId={barangay?.id}
         position={'Kagawad'}
         maxVoters={barangay?.voters || 10000}
       />

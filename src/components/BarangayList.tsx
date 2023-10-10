@@ -1,7 +1,7 @@
 'use client';
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Database } from '@/lib/database';
+import type { Database } from '@/lib/database';
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
@@ -61,7 +61,7 @@ export default function BarangayList() {
         data?.map((item) => (
           <li key={item.id} className='p-2'>
             <Button variant={'outline'} asChild>
-              <Link href={`/barangay/${item.id}`}>{item.name}</Link>
+              <Link href={`/barangay/${item?.slug}`}>{item.name}</Link>
             </Button>
           </li>
         ))}

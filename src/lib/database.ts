@@ -14,18 +14,21 @@ export interface Database {
           created_at: string;
           id: number;
           name: string | null;
+          slug: string | null;
           voters: number | null;
         };
         Insert: {
           created_at?: string;
           id?: number;
           name?: string | null;
+          slug?: string | null;
           voters?: number | null;
         };
         Update: {
           created_at?: string;
           id?: number;
           name?: string | null;
+          slug?: string | null;
           voters?: number | null;
         };
         Relationships: [];
