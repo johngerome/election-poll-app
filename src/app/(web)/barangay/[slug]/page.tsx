@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import ResultsPoll from '@/components/ResultsPoll';
 import { PageHeader, SectionTitle } from '@/components/ui/heading';
 import BackButton from '@/components/BackButton';
+import ResultsUpdatedAt from '@/components/ResultsUpdatedAt';
 
 export default async function ResultsByLocation({
   params,
@@ -33,7 +34,7 @@ export default async function ResultsByLocation({
       <BackButton href='/' className='-mt-10' />
       <PageHeader title={`Barangay ${location?.address}`}>
         Partial, unofficial results as of{' '}
-        <strong>October 26, 2023, 10:00AM.</strong>
+        <ResultsUpdatedAt locationId={params?.slug} />
       </PageHeader>
       <SectionTitle>Punong Barangay</SectionTitle>
       <ResultsPoll
