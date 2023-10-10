@@ -20,5 +20,9 @@ export default function ResultsUpdatedAt({
     return updatedAt && format(parseISO(updatedAt), 'MMM dd, yyyy hh:mm aa');
   }, [updatedAt]);
 
+  if (!updatedAt) {
+    return <strong>...</strong>;
+  }
+
   return <strong>{formattedDate}</strong>;
 }
