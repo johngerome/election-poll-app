@@ -26,13 +26,15 @@ export default function Index() {
           </p>
         </div>
         <div className='flex flex-col items-center justify-center bg-white'>
-          <Image
-            src={'/images/edward.png'}
-            width={800}
-            height={800}
-            alt='Edward'
-            className='mb-4 h-40 w-40 rounded-full border-8 border-blue-100 object-cover'
-          />
+          <div className='mb-4 h-40 w-40 overflow-hidden rounded-full border-4 border-blue-100  object-cover'>
+            <Image
+              src={'/images/edward.png?2410202301'}
+              width={800}
+              height={800}
+              alt='Edward'
+              className='h-full w-full object-cover'
+            />
+          </div>
           <h1 className='mb-4 text-2xl font-bold'>
             <span className='text-blue-500'>Edward</span>{' '}
             <span className='text-red-500'>Peligrino</span>
