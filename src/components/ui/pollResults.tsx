@@ -127,7 +127,7 @@ function AlertUpdateVotes({
 
   function handleSubmit(values: z.infer<typeof updateVoteSchema>) {
     if (typeof onSubmit === 'function') {
-      onSubmit({ newVote });
+      // onSubmit({ newVote });
     }
   }
 
