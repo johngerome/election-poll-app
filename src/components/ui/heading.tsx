@@ -14,7 +14,7 @@ type PropsPageHeader = {
 export function PageHeader({ title, children }: PropsPageHeader) {
   return (
     <div className='mb-6'>
-      <h1 className='mb-2 text-2xl font-bold md:text-3xl'>{title}</h1>
+      <h1 className='mb-2 text-xl font-bold md:text-3xl'>{title}</h1>
       <p className='mb-0 text-sm text-gray-500'>{children}</p>
     </div>
   );

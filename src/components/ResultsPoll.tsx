@@ -99,6 +99,10 @@ export default function ResultsPoll({
     };
   }, [refetch, supabase]);
 
+  function handleUpdateVotes(value: string) {
+    console.log(value);
+  }
+
   if (isLoading) {
     return <p className='mb-12'>loading...</p>;
   }
@@ -127,6 +131,7 @@ export default function ResultsPoll({
             votes={item?.votes}
             maxVotes={maxVoters}
             isShowUpdate={!!session?.user.id}
+            onSubmit={handleUpdateVotes}
           ></PollItem>
         ))}
     </PollResults>

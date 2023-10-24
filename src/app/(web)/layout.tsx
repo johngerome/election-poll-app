@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 import type { Database } from '@/lib/database';
 import { Button } from '@/components/ui/button';
 import LogoutButton from '@/components/LogoutButton';
+import MenuButton from '@/components/MenuButton';
 
 export default async function AuthLayout({
   children,
@@ -21,8 +22,9 @@ export default async function AuthLayout({
   return (
     <div>
       <header className='mb-6 flex items-center border-b border-gray-200 bg-white p-4'>
-        <h2 className='font-bold'>Barangay Election 2023</h2>
+        <h2 className='font-bold'>Cabantian Election 2023</h2>
         <div className='ml-auto flex items-center space-x-4'>
+          {/* <MenuButton /> */}
           <span className='hidden text-sm text-gray-500 md:block'>
             {session?.user.email}
           </span>
@@ -31,7 +33,8 @@ export default async function AuthLayout({
       </header>
       <main>{children}</main>
       <footer className='py-6 text-center text-sm text-gray-500'>
-        &copy; Barangay Election 2023
+        &copy; Barangay Election 2023 - Powered by{' '}
+        <a href='https://n2hosting.com/'>n2hosting.com</a>
       </footer>
     </div>
   );

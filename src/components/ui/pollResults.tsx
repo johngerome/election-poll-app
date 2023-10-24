@@ -10,10 +10,13 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Button } from './button';
 import { Input } from './input';
 import { numNth } from '@/lib/utils';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 type PropsPollResults = {
   children: React.ReactNode;
@@ -33,6 +36,7 @@ type PropsPollItem = {
   votes: number;
   maxVotes: number;
   isShowUpdate?: boolean;
+  onSubmit: (value: string) => void;
 };
 
 export function PollItem({
@@ -45,6 +49,7 @@ export function PollItem({
   votes,
   maxVotes,
   isShowUpdate,
+  onSubmit,
 }: PropsPollItem) {
   const progress = useMemo(() => (votes / maxVotes) * 100, [votes, maxVotes]);
 
@@ -66,6 +71,7 @@ export function PollItem({
                 last_name={last_name}
                 nickname={nickname}
                 votes={votes}
+                onSubmit={onSubmit}
               />
             )}
             <div className='flex flex-col'>
@@ -93,15 +99,36 @@ export function PollItem({
 
 type PropsAlertUpdateVotes = Partial<PropsPollItem>;
 
+const updateVoteSchema = z.object({
+  newVote: z.string().min(1, 'This field is required'),
+});
+
 function AlertUpdateVotes({
   first_name,
   nickname,
   last_name,
   votes,
+  onSubmit,
 }: PropsAlertUpdateVotes) {
+  const [newVotes, setNewVotes] = useState('');
+
+  const form = useForm<z.infer<typeof updateVoteSchema>>({
+    resolver: zodResolver(updateVoteSchema),
+    defaultValues: {
+      newVote: String(votes),
+    },
+  });
+
   function handleBlur(e: React.ChangeEvent<HTMLInputElement>) {
     const target = e?.target;
     console.log(target?.value);
+    setNewVotes(target?.value);
+  }
+
+  function handleSubmit(values: z.infer<typeof updateVoteSchema>) {
+    if (typeof onSubmit === 'function') {
+      onSubmit({ newVote });
+    }
   }
 
   return (
@@ -121,7 +148,10 @@ function AlertUpdateVotes({
             {first_name}, {nickname && `"${nickname}"`} {last_name}
           </AlertDialogTitle>
           <p>Current Votes: {votes}</p>
-          <form action='' className='block py-3'>
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className='block py-3'
+          >
             <label className='text-sm'>
               New Votes
               <Input type='text' value={votes} required onChange={handleBlur} />
