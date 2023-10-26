@@ -6,6 +6,7 @@ import type { Database } from '@/lib/database';
 import { Button } from '@/components/ui/button';
 import LogoutButton from '@/components/LogoutButton';
 import MenuButton from '@/components/MenuButton';
+import AppLogo from '@/components/AppLogo';
 
 export default async function AuthLayout({
   children,
@@ -22,7 +23,7 @@ export default async function AuthLayout({
   return (
     <div>
       <header className='mb-6 flex items-center border-b border-gray-200 bg-white p-4'>
-        <h2 className='font-bold'>Cabantian Election 2023</h2>
+        <AppLogo />
         <div className='ml-auto flex items-center space-x-4'>
           {/* <MenuButton /> */}
           <span className='hidden text-sm text-gray-500 md:block'>
