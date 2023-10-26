@@ -36,10 +36,12 @@ export default async function ResultsByBarangay({
         <ResultsUpdatedAt locationId={barangay?.id} />
       </PageHeader>
       <Tabs defaultValue='barangay'>
-        <TabsList className='mb-6'>
-          <TabsTrigger value='barangay'>Barangay</TabsTrigger>
-          <TabsTrigger value='sk'>SK</TabsTrigger>
-        </TabsList>
+        <div className='flex justify-end'>
+          <TabsList className='mb-6'>
+            <TabsTrigger value='barangay'>Barangay</TabsTrigger>
+            <TabsTrigger value='sk'>SK</TabsTrigger>
+          </TabsList>
+        </div>
         <TabsContent value='barangay'>
           <SectionTitle>Punong Barangay</SectionTitle>
           <ResultsPoll
@@ -67,13 +69,13 @@ export default async function ResultsByBarangay({
           <SectionTitle>Chairperson, Sangguniang Kabataan</SectionTitle>
           <ResultsPoll
             locationId={barangay?.id}
-            position={'Punong Barangay'}
+            position={'SK Chairperson'}
             maxVoters={barangay?.voters || 10000}
           />
           <SectionTitle>Member, Sangguniang Kabataan</SectionTitle>
           <ResultsPoll
             locationId={barangay?.id}
-            position={'Kagawad'}
+            position={'SK Member'}
             maxVoters={barangay?.voters || 10000}
           />
           <div className='mt-12 text-sm text-gray-400'>
