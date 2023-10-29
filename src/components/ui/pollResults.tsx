@@ -78,7 +78,9 @@ export function PollItem({
             <div className='flex flex-col'>
               <h3 className='flex-none break-words font-bold uppercase text-slate-800'>
                 {first_name}, {nickname && `"${nickname}"`} {last_name}{' '}
-                <span className='text-xs font-normal'>({partyList})</span>
+                {partyList && (
+                  <span className='text-xs font-normal'>({partyList})</span>
+                )}
               </h3>
               <p className='flex-1 space-x-2'>
                 <span className='flex-none font-semibold text-primary'>
