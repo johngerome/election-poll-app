@@ -71,7 +71,7 @@ export default async function ResultsByBarangay({
           />
         </TabsContent>
       </Tabs>
-      <div className='mt-12 text-sm text-gray-400'>
+      <div className='mt-12 text-sm text-gray-500'>
         <h4 className='mb-3'>Disclaimer</h4>
         <p>
           This app is for informational purposes only. It is not an official
