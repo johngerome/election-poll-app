@@ -7,8 +7,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { Database } from '@/lib/database';
 import { PollItem, PollResults } from '@/components/ui/pollResults';
 import { useQuery } from '@tanstack/react-query';
-import { useSetRecoilState } from 'recoil';
-import { pollResultsStore } from '@/store/pollStore';
+// import { useSetRecoilState } from 'recoil';
+// import { pollResultsStore } from '@/store/pollStore';
 
 type PropsResultsPoll = {
   locationId: string;
@@ -22,7 +22,7 @@ export default function ResultsPoll({
   maxVoters,
 }: PropsResultsPoll) {
   const supabase = createClientComponentClient<Database>();
-  const setPollResultsStore = useSetRecoilState(pollResultsStore);
+  // const setPollResultsStore = useSetRecoilState(pollResultsStore);
 
   const { data: session } = useQuery({
     queryKey: ['session'],
@@ -62,12 +62,12 @@ export default function ResultsPoll({
     },
   });
 
-  setPollResultsStore((value) => ({
-    updatedAt: {
-      ...value.updatedAt,
-      [locationId]: data?.[0]?.votes?.[0]?.updated_at,
-    },
-  }));
+  // setPollResultsStore((value) => ({
+  //   updatedAt: {
+  //     ...value.updatedAt,
+  //     [locationId]: data?.[0]?.votes?.[0]?.updated_at,
+  //   },
+  // }));
 
   const candidatesByVotes = useMemo(() => {
     const candidates = data?.map((item) => ({

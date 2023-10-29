@@ -13,11 +13,13 @@ export default async function ResultsByBarangay({
 }) {
   const cookieStore = cookies();
   const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const locationSlug = params?.slug[0];
+  const type = params?.slug[1];
 
   const { data, error } = await supabase
     .from('barangays')
     .select('id, name, voters')
-    .eq('slug', params?.slug);
+    .eq('slug', locationSlug);
 
   if (error) {
     return <p className='text-red-500'>{error?.message}</p>;
@@ -35,7 +37,7 @@ export default async function ResultsByBarangay({
         Partial, unofficial results as of{' '}
         <ResultsUpdatedAt locationId={barangay?.id} />
       </PageHeader>
-      <Tabs defaultValue='barangay'>
+      <Tabs defaultValue={type ? type : 'barangay'}>
         <div className='flex justify-end'>
           <TabsList className='mb-6'>
             <TabsTrigger value='barangay'>Barangay</TabsTrigger>

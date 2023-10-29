@@ -25,7 +25,7 @@ export default async function AuthLayout({
       <header className='mb-6 flex items-center border-b border-gray-200 bg-white p-4'>
         <AppLogo />
         <div className='ml-auto flex items-center space-x-4'>
-          {/* <MenuButton /> */}
+          <MenuButton />
           <span className='hidden text-sm text-gray-500 md:block'>
             {session?.user.email}
           </span>
