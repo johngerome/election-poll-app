@@ -13,6 +13,7 @@ type Props = {
 export default function BackButton({ href, className }: Props) {
   return (
     <Button
+      type='button'
       variant={'outline'}
       size={'sm'}
       className={cn(`mb-6 p-2`, className)}

@@ -55,15 +55,6 @@ export default async function ResultsByBarangay({
             position={'Kagawad'}
             maxVoters={barangay?.voters || 10000}
           />
-          <div className='mt-12 text-sm text-gray-400'>
-            <h4 className='mb-3'>Disclaimer</h4>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-              dicta aperiam mollitia amet laboriosam culpa consectetur sit
-              impedit? Saepe officia impedit non atque quia nihil voluptates
-              corrupti quae doloribus excepturi?
-            </p>
-          </div>
         </TabsContent>
         <TabsContent value='sk'>
           <SectionTitle>Chairperson, Sangguniang Kabataan</SectionTitle>
@@ -78,17 +69,17 @@ export default async function ResultsByBarangay({
             position={'SK Member'}
             maxVoters={barangay?.voters || 10000}
           />
-          <div className='mt-12 text-sm text-gray-400'>
-            <h4 className='mb-3'>Disclaimer</h4>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-              dicta aperiam mollitia amet laboriosam culpa consectetur sit
-              impedit? Saepe officia impedit non atque quia nihil voluptates
-              corrupti quae doloribus excepturi?
-            </p>
-          </div>
         </TabsContent>
       </Tabs>
+      <div className='mt-12 text-sm text-gray-400'>
+        <h4 className='mb-3'>Disclaimer</h4>
+        <p>
+          This app is for informational purposes only. It is not an official
+          election platform. Please use official sources for accurate election
+          information. We do not endorse any candidate or political group. User
+          discretion is advised.
+        </p>
+      </div>
     </div>
   );
 }

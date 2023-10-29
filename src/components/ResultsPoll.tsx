@@ -45,7 +45,7 @@ export default function ResultsPoll({
         .from('candidates')
         .select(
           `
-            id, first_name, last_name, nickname, location_id,
+            id, first_name, last_name, nickname, location_id, avatar,
             barangays (id, name),
             party_list (name),
             votes (votes, updated_at)
@@ -76,6 +76,7 @@ export default function ResultsPoll({
       last_name: item?.last_name,
       nickname: item?.nickname,
       party_list: item?.party_list?.name,
+      avatar: item?.avatar,
       votes: item?.votes?.[0]?.votes || 0,
     }));
 
@@ -99,8 +100,13 @@ export default function ResultsPoll({
     };
   }, [refetch, supabase]);
 
-  function handleUpdateVotes(value: string) {
-    console.log(value);
+  async function handleUpdateVotes(candidateId: number, newVotes: number) {
+    const { error } = await supabase
+      .from('votes')
+      .update({ votes: newVotes, updated_at: new Date().toISOString() })
+      .eq('candidate_id', candidateId);
+    refetch();
+    console.error(error);
   }
 
   if (isLoading) {
@@ -122,7 +128,10 @@ export default function ResultsPoll({
         candidatesByVotes.map((item, index) => (
           <PollItem
             key={item.id}
-            avatar={`https://i.pravatar.cc/150?img=${index + 1}`}
+            avatar={
+              item?.avatar ||
+              `https://eu.ui-avatars.com/api/?name=${item.first_name}&size=250`
+            }
             first_name={item.first_name}
             last_name={item.last_name}
             nickname={item.nickname}
@@ -131,7 +140,10 @@ export default function ResultsPoll({
             votes={item?.votes}
             maxVotes={maxVoters}
             isShowUpdate={!!session?.user.id}
-            onSubmit={handleUpdateVotes}
+            onSubmit={(newVote) =>
+              handleUpdateVotes(item?.id, parseInt(newVote))
+            }
+            className={index > 6 ? 'opacity-30' : 'opacity-100'}
           ></PollItem>
         ))}
     </PollResults>

@@ -1,6 +1,5 @@
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
@@ -13,7 +12,7 @@ import { Progress } from '@/components/ui/progress';
 import React, { useMemo, useState } from 'react';
 import { Button } from './button';
 import { Input } from './input';
-import { numNth } from '@/lib/utils';
+import { cn, numNth } from '@/lib/utils';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -36,6 +35,7 @@ type PropsPollItem = {
   votes: number;
   maxVotes: number;
   isShowUpdate?: boolean;
+  className?: string;
   onSubmit: (value: string) => void;
 };
 
@@ -49,13 +49,14 @@ export function PollItem({
   votes,
   maxVotes,
   isShowUpdate,
+  className,
   onSubmit,
 }: PropsPollItem) {
   const progress = useMemo(() => (votes / maxVotes) * 100, [votes, maxVotes]);
 
   return (
     <>
-      <li className='relative flex space-x-4'>
+      <li className={cn('relative flex space-x-4', className)}>
         <span className='mb-auto flex w-6 flex-none items-center justify-center rounded-full text-sm font-semibold text-gray-500'>
           {numNth(placement)}
         </span>
@@ -110,7 +111,8 @@ function AlertUpdateVotes({
   votes,
   onSubmit,
 }: PropsAlertUpdateVotes) {
-  const [newVotes, setNewVotes] = useState('');
+  const [open, setOpen] = React.useState(false);
+  const [newVotes, setNewVotes] = useState(['']);
 
   const form = useForm<z.infer<typeof updateVoteSchema>>({
     resolver: zodResolver(updateVoteSchema),
@@ -119,50 +121,111 @@ function AlertUpdateVotes({
     },
   });
 
-  function handleBlur(e: React.ChangeEvent<HTMLInputElement>) {
-    const target = e?.target;
-    console.log(target?.value);
-    setNewVotes(target?.value);
+  const totalNewVotes = useMemo(() => {
+    return newVotes?.reduce((a, b) => String(parseInt(a) + parseInt(b)));
+  }, [newVotes]);
+
+  function handleAddVote() {
+    setNewVotes((current) => [...current, '']);
   }
 
-  function handleSubmit(values: z.infer<typeof updateVoteSchema>) {
+  function handleRemoveVote(selectedIndex: number) {
+    setNewVotes((current) => current?.filter((_, i) => selectedIndex !== i));
+  }
+
+  function handleBlur(value: any, selectedIndex: number) {
+    setNewVotes(
+      (current) =>
+        current?.map((itemValue, i) =>
+          selectedIndex === i ? value : itemValue
+        )
+    );
+  }
+
+  function handleSubmit() {
+    // if (parseInt(totalNewVotes) <= 0) return;
     if (typeof onSubmit === 'function') {
-      // onSubmit({ newVote });
+      onSubmit(totalNewVotes);
+      setOpen(false);
     }
   }
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button
-          variant='default'
-          size={'sm'}
-          className='-top-1 right-0 mb-2 w-full flex-none md:mb-0 md:ml-auto md:w-auto'
-        >
-          Update
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>
-            {first_name}, {nickname && `"${nickname}"`} {last_name}
-          </AlertDialogTitle>
-          <p>Current Votes: {votes}</p>
-          <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className='block py-3'
+    <>
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialogTrigger asChild>
+          <Button
+            variant='default'
+            size={'sm'}
+            className='-top-1 right-0 mb-2 w-full flex-none md:mb-0 md:ml-auto md:w-auto'
           >
-            <label className='text-sm'>
-              New Votes
-              <Input type='text' value={votes} required onChange={handleBlur} />
-            </label>
-          </form>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Update</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+            Update
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {first_name}, {nickname && `"${nickname}"`} {last_name}
+            </AlertDialogTitle>
+            <p className='pb-6 text-lg'>
+              Current Votes:{' '}
+              {new Intl.NumberFormat('en-IN', {
+                maximumSignificantDigits: 3,
+              }).format(votes || 0)}
+            </p>
+            {(!totalNewVotes || parseInt(totalNewVotes) <= 0) && (
+              <p className='text-red-slate text-sm'>
+                Please input new votes for {first_name}.
+              </p>
+            )}
+            <form onSubmit={handleSubmit} className='block py-3'>
+              <label className='flex flex-col text-left text-sm'>
+                <span className='mb-2 inline-block font-semibold'>
+                  New Votes for {first_name}
+                </span>
+                {newVotes &&
+                  newVotes?.map((value, index) => (
+                    <div key={index} className='mb-2 grid grid-cols-6 gap-2'>
+                      <Input
+                        type='number'
+                        value={value}
+                        required
+                        onChange={(e) => handleBlur(e.target.value, index)}
+                        className='col-span-5'
+                      />
+                      {newVotes?.length !== index + 1 && (
+                        <Button
+                          type='button'
+                          variant={'destructive'}
+                          className='col-span-1'
+                          onClick={() => handleRemoveVote(index)}
+                        >
+                          -
+                        </Button>
+                      )}
+                      {newVotes?.length === index + 1 && (
+                        <Button
+                          type='button'
+                          variant={'secondary'}
+                          className='col-span-1'
+                          onClick={handleAddVote}
+                        >
+                          +
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+              </label>
+            </form>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <Button variant={'default'} onClick={handleSubmit}>
+              Update New Vote ({totalNewVotes || 0})
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }
