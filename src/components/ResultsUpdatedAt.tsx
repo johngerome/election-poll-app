@@ -66,7 +66,7 @@ export default function ResultsUpdatedAt({
     );
   }, [data]);
 
-  if (!data || isLoading) {
+  if (!data || isLoading || !formattedDate) {
     return <strong>...</strong>;
   }
 

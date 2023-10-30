@@ -6,6 +6,7 @@ import { PageHeader } from '@/components/ui/heading';
 import Image from 'next/image';
 import { Icon } from '@iconify/react';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default function Index() {
   return (
@@ -20,9 +21,11 @@ export default function Index() {
             Delivered by <strong>Edward Peligrino</strong>.
           </p>
           <p className='text-center'>
-            <span className='inline-block rounded-lg bg-gray-600 p-3 text-sm text-white'>
-              Coming Soon - October 30, 2023
-            </span>
+            <Button asChild>
+              <Link href={'/barangay/cabantian'}>
+                Cabantian Election Results 2023
+              </Link>
+            </Button>
           </p>
         </div>
         <div className='flex flex-col items-center justify-center bg-white'>
